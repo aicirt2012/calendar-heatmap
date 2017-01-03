@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 
 function calendarHeatmap() {
   // defaults
@@ -262,3 +263,5 @@ if (!Array.prototype.find) {
   };
 }
 /* jshint ignore:end */
+
+module.exports = calendarHeatmap;
