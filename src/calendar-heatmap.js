@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-function calendarHeatmap() {
+function calendarHeatmap(startDate, endDate) {
   // defaults
   var width = 750;
   var height = 110;
@@ -17,10 +17,15 @@ function calendarHeatmap() {
   var colorRange = ['#D8E6E7', '#218380'];
   var tooltipEnabled = true;
   var tooltipUnit = 'contribution';
+  var tooltipFromat = 'ddd, MMM Do YYYY';
   var legendEnabled = true;
   var onClick = null;
   var weekStart = 0; //0 for Sunday, 1 for Monday
 
+  if(startDate != undefined && endDate != undefined){
+    yearAgo = moment(startDate).startOf('day').toDate();
+    now = moment(endDate).endOf('day').toDate();
+  }
   // setters and getters
   chart.data = function (value) {
     if (!arguments.length) { return data; }
@@ -51,6 +56,11 @@ function calendarHeatmap() {
     tooltipUnit = value;
     return chart;
   };
+
+  chart.tooltipDatefromat = function (value){
+    tooltipFromat = value;
+    return chart;
+  }
 
   chart.legendEnabled = function (value) {
     if (!arguments.length) { return legendEnabled; }
@@ -196,7 +206,7 @@ function calendarHeatmap() {
     }
 
     function tooltipHTMLForDate(d) {
-      var dateStr = moment(d).format('ddd, MMM Do YYYY');
+      var dateStr = moment(d).format(tooltipFromat);
       var count = countForDate(d);
       return '<span><strong>' + (count ? count : 'No') + ' ' + tooltipUnit + (count === 1 ? '' : 's') + '</strong> on ' + dateStr + '</span>';
     }
